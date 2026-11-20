@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
+import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "معمل الواجهات | منصة بناء واجهات وتطبيقات SaaS الحديثة",
+  title: "Furniro | متجر الأثاث والديكور العصري",
   description:
-    "منصة عربية متطورة لتطوير واجهات المستخدم وحلول الويب الحديثة بأعلى معايير الأداء وتجربة المستخدم مع Next.js و Tailwind CSS",
+    "متجر Furniro الإلكتروني يوفر تشكيلة استثنائية من الأثاث والديكور المنزلي الاسكندنافي بأعلى معايير الجودة والتصميم.",
 };
 
 interface RootLayoutProps {
@@ -29,9 +32,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
       </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground">
-        <Navbar />
-        <div className="flex-1 flex flex-col">{children}</div>
-        <Footer />
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <div className="flex-1 flex flex-col">{children}</div>
+            <Footer />
+            <CartDrawer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,34 +1,30 @@
 import type { Metadata } from "next";
-import { Badge } from "@/components/ui/Badge";
+import { ShopBanner } from "@/components/sections/ShopBanner";
 import { ProductsCatalog } from "@/components/sections/ProductsCatalog";
-import { PRODUCTS } from "@/data/products";
+import { StoreBenefits } from "@/components/sections/StoreBenefits";
+import { getProducts } from "@/services/product.service";
 
 export const metadata: Metadata = {
-  title: "منتجاتنا | معمل الواجهات",
+  title: "المتجر | Furniro للأثاث والديكور العصري",
   description:
-    "استكشف حلول ومنتجات SaaS الحديثة المصممة لتسريع وتطوير أعمالك الرقمية",
+    "تصفح أحدث وأرقى تصاميم الأثاث المنزلي والديكور من متجر Furniro مع فلاتر ذكية، شحن مجاني وضمان معتمد.",
 };
 
-export default function ProductsPage() {
-  return (
-    <main className="flex-1 py-12 sm:py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Page Header */}
-        <header className="text-center space-y-4">
-          <Badge variant="info">حلول متكاملة</Badge>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
-            منتجاتنا
-          </h1>
-          <p className="mx-auto max-w-2xl text-base text-slate-600 sm:text-lg">
-            اختر الحل الأمثل لنمو مشروعك وتسريع إنتاجية فريقك مع حزم مصممة خصيصاً للشركات الحديثة.
-          </p>
-        </header>
+export default async function ProductsPage() {
+  const products = await getProducts();
 
-        {/* Interactive Products Catalog */}
-        <section aria-label="دليل المنتجات التفاعلي" className="mt-12 sm:mt-16">
-          <ProductsCatalog products={PRODUCTS} />
-        </section>
-      </div>
+  return (
+    <main className="flex-1 space-y-12 sm:space-y-16">
+      {/* 1. Page Header Banner */}
+      <ShopBanner />
+
+      {/* 2. Interactive Catalog with Furniro Toolbar & Pagination */}
+      <section aria-label="دليل المنتجات التفاعلي">
+        <ProductsCatalog products={products} />
+      </section>
+
+      {/* 3. Store Benefits */}
+      <StoreBenefits />
     </main>
   );
 }
