@@ -48,7 +48,7 @@ export function Footer({ className = "" }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="transition-colors hover:text-primary">
+                <Link href="/about" className="transition-colors hover:text-primary">
                   من نحن
                 </Link>
               </li>

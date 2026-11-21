@@ -72,7 +72,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
               <div className="h-[300px] sm:h-[348px] rounded-[10px] bg-[#F9F1E7] p-6 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+                  src="/images/products/detail-1.jpg"
                   alt="عرض تفاصيل الأثاث 1"
                   className="h-full w-full object-cover rounded-[8px] mix-blend-multiply"
                   loading="lazy"
@@ -80,7 +80,7 @@ export function ProductTabs({ product }: ProductTabsProps) {
               </div>
               <div className="h-[300px] sm:h-[348px] rounded-[10px] bg-[#F9F1E7] p-6 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80"
+                  src="/images/products/detail-2.jpg"
                   alt="عرض تفاصيل الأثاث 2"
                   className="h-full w-full object-cover rounded-[8px] mix-blend-multiply"
                   loading="lazy"

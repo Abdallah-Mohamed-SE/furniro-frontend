@@ -26,14 +26,14 @@ export interface ProductImage {
 }
 
 export interface Product {
-  id: number;
+  id: number | string;
   slug: string;
   title: string;
   description: string;
   price: number;
   discountPrice?: number;
   stock: number;
-  category: ProductCategory;
+  category: ProductCategory | string | any;
   images: string[];
   rating: number;
   reviewCount: number;

@@ -17,7 +17,7 @@ export default function LoginPage() {
         <AuthVisualHero
           title="عالم من الفخامة والبساطة في متناول يدك"
           subtitle="سجل دخولك لاستعراض تشكيلاتك المفضلة ومتابعة حالة شحن وتوصيل طلباتك السابقة بكل يسر."
-          imageSrc="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80"
+          imageSrc="/images/page-banner.jpg"
         />
 
         {/* Form Side */}

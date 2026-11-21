@@ -1,6 +1,6 @@
 // ============================================================
-// src/data/products.ts  — Fallback mock data for Furniro Storefront
-// Used by product.service.ts when the Laravel API is unavailable.
+// src/data/products.ts  — Mock data for Furniro Storefront
+// Used for local development and offline mock mode (NestJS-ready).
 // ============================================================
 
 import type { Product } from "@/types/product";
@@ -17,8 +17,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 28,
     category: "كراسي",
     images: [
-      "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1580481077190-736be56537ca?auto=format&fit=crop&w=800&q=80",
+      "/images/products/syltherine-1.jpg",
+      "/images/products/syltherine-2.jpg",
     ],
     rating: 4.8,
     reviewCount: 142,
@@ -36,7 +36,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 19,
     category: "كراسي",
     images: [
-      "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=800&q=80",
+      "/images/products/leviosa-1.jpg",
+      "/images/products/leviosa-2.jpg",
     ],
     rating: 4.9,
     reviewCount: 98,
@@ -56,8 +57,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 12,
     category: "غرف معيشة",
     images: [
-      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80",
+      "/images/products/lolito-1.jpg",
+      "/images/products/lolito-2.jpg",
     ],
     rating: 4.9,
     reviewCount: 320,
@@ -75,7 +76,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 15,
     category: "طاولات",
     images: [
-      "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=800&q=80",
+      "/images/products/respira-1.jpg",
+      "/images/products/respira-2.jpg",
     ],
     rating: 4.7,
     reviewCount: 64,
@@ -94,7 +96,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 45,
     category: "إضاءة",
     images: [
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80",
+      "/images/products/grifo-1.jpg",
+      "/images/products/grifo-2.jpg",
     ],
     rating: 4.6,
     reviewCount: 88,
@@ -112,7 +115,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 22,
     category: "طاولات",
     images: [
-      "https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=800&q=80",
+      "/images/products/muggo-1.jpg",
+      "/images/products/muggo-2.jpg",
     ],
     rating: 4.8,
     reviewCount: 110,
@@ -131,7 +135,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 10,
     category: "غرف نوم",
     images: [
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
+      "/images/products/pingky-1.jpg",
+      "/images/products/pingky-2.jpg",
     ],
     rating: 4.9,
     reviewCount: 215,
@@ -149,7 +154,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 60,
     category: "ديكور",
     images: [
-      "https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=800&q=80",
+      "/images/products/potty-1.jpg",
+      "/images/products/potty-2.jpg",
     ],
     rating: 4.5,
     reviewCount: 76,
@@ -159,21 +165,22 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: 9,
-    slug: "kallax-storage-shelf",
-    title: "كالاكس - وحدة رفوف وتخزين هندسية",
+    slug: "aurelia-dining-table",
+    title: "أوريليا - طاولة طعام رخامية فاخرة",
     description:
-      "وحدة تخزين مربعة متعددة الأقسام مناسبة لعرض الكتب والتحف الفنية، يمكن تثبيتها أفقياً أو عمودياً لتناسب أبعاد مساحتك.",
-    price: 3400,
-    discountPrice: 2800,
-    stock: 18,
-    category: "تخزين",
+      "طاولة طعام بسطح من رخام الكارارا الإيطالي الأبيض وقاعدة معدنية مذهبة تتسع لـ 6 إلى 8 أشخاص بأناقة لافتة.",
+    price: 3200,
+    stock: 14,
+    category: "غرف طعام",
     images: [
-      "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&w=800&q=80",
+      "/images/products/aurelia-1.jpg",
+      "/images/products/aurelia-2.jpg",
     ],
-    rating: 4.7,
-    reviewCount: 94,
-    brand: "Furniro",
-    tags: ["رفوف", "تخزين", "مكتبة"],
+    rating: 4.9,
+    reviewCount: 47,
+    brand: "Furniro Luxury",
+    tags: ["طاولة طعام", "رخام", "فاخر"],
+    isNew: true,
   },
   {
     id: 10,
@@ -186,7 +193,8 @@ export const MOCK_PRODUCTS: Product[] = [
     stock: 8,
     category: "غرف معيشة",
     images: [
-      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=800&q=80",
+      "/images/products/asgaard-1.jpg",
+      "/images/products/asgaard-2.jpg",
     ],
     rating: 4.9,
     reviewCount: 180,
@@ -197,38 +205,40 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: 11,
     slug: "nordic-oak-dining-table",
-    title: "نورديك - طاولة طعام من خشب البلوط الصلب",
+    title: "نورديك - مكتب عمل وخشب البلوط الصلب",
     description:
-      "طاولة طعام تتسع لـ 6 إلى 8 أشخاص، مصنوعة بالكامل من خشب البلوط الصلب مع معالجة زيتية طبيعية تحمي الخشب وتبرز جمال عروقه.",
+      "مكتب عمل عصري يتسع لجميع أجهزتك، مصنوع بالكامل من خشب البلوط الصلب مع معالجة زيتية طبيعية تحمي الخشب.",
     price: 6200,
     stock: 14,
-    category: "غرف طعام",
+    category: "طاولات",
     images: [
-      "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=800&q=80",
+      "/images/products/nordic-desk-1.jpg",
+      "/images/products/nordic-desk-2.jpg",
     ],
     rating: 4.8,
     reviewCount: 130,
     brand: "Furniro Wood",
-    tags: ["طاولة طعام", "خشب بلوط", "طبيعي"],
+    tags: ["مكتب", "خشب بلوط", "طبيعي"],
     isFeatured: true,
   },
   {
     id: 12,
-    slug: "aura-pendant-light",
-    title: "أورا - ثريا سقفية معلقة بتصميم بوهيمي",
+    slug: "ergopro-chair",
+    title: "إيرغو برو - كرسي مريح متعدد الاستخدامات",
     description:
-      "إضاءة سقف معلقة منسوجة يدوياً من خيوط الخيزران والروطان الطبيعي، تنشر ظلالاً ساحرة ودافئة على طاولات الطعام وزوايا المعيشة.",
-    price: 950,
-    discountPrice: 750,
-    stock: 35,
-    category: "إضاءة",
+      "كرسي مريح متكامل الميزات مع دعم قطني قابل للتعديل ومسند للرأس معتمد للاستخدام اليومي الطويل.",
+    price: 1800,
+    discountPrice: 1450,
+    stock: 22,
+    category: "كراسي",
     images: [
-      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=800&q=80",
+      "/images/products/ergopro-1.jpg",
+      "/images/products/ergopro-2.jpg",
     ],
-    rating: 4.7,
-    reviewCount: 92,
-    brand: "Furniro Light",
-    tags: ["ثريا", "إضاءة سقف", "روطان"],
+    rating: 4.8,
+    reviewCount: 341,
+    brand: "Furniro Office",
+    tags: ["كرسي", "مكتب", "مريح"],
     isNew: true,
   },
 ];

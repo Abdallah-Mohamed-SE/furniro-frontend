@@ -9,7 +9,7 @@ export interface AuthVisualHeroProps {
 export function AuthVisualHero({
   title = "أناقة اسكندنافية تناسب ذوقك الرفيع",
   subtitle = "انضم إلى مجتمع Furniro واستمتع بتجربة تسوق استثنائية لأرقى قطع الأثاث والديكور العصري.",
-  imageSrc = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+  imageSrc = "/images/page-banner.jpg",
 }: AuthVisualHeroProps) {
   return (
     <div className="relative hidden w-full lg:flex lg:w-1/2 flex-col justify-between overflow-hidden bg-heading p-12 text-white">

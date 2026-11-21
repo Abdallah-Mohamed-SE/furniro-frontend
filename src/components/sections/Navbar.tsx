@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
   { label: "الرئيسية", href: "/" },
   { label: "المتجر", href: "/products" },
   { label: "المدونة", href: "/blog" },
-  { label: "من نحن", href: "/#about" },
+  { label: "من نحن", href: "/about" },
   { label: "اتصل بنا", href: "/contact" },
 ];
 

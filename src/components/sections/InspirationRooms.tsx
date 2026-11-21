@@ -35,7 +35,7 @@ export function InspirationRooms() {
             {/* Featured Room Card */}
             <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md shadow-md">
               <img
-                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+                src="/images/rooms/room-1.jpg"
                 alt="تصميم غرفة معيشة اسكندنافية ملهمة"
                 className="h-full w-full object-cover object-center"
                 loading="lazy"
@@ -49,7 +49,7 @@ export function InspirationRooms() {
             {/* Second Room Card */}
             <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md shadow-md hidden sm:block">
               <img
-                src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80"
+                src="/images/rooms/room-2.jpg"
                 alt="تصميم غرفة نوم عصرية"
                 className="h-full w-full object-cover object-center"
                 loading="lazy"

@@ -17,7 +17,7 @@ export default function RegisterPage() {
         <AuthVisualHero
           title="صُممت لتدوم، وصُنعت لتُبهج كل زاوية في منزلك"
           subtitle="انضم اليوم واحصل على تحديثات مستمرة بأحدث أطقم الأثاث الاسكندنافي وحلول الديكور المبتكرة."
-          imageSrc="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80"
+          imageSrc="/images/page-banner.jpg"
         />
 
         {/* Form Side */}

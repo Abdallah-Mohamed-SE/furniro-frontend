@@ -23,13 +23,13 @@ const SAMPLE_ORDERS: UserOrder[] = [
     items: [
       {
         title: "كرسي مقهى سيلثرين العصري (Syltherine)",
-        image: "https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=600&q=80",
+        image: "/images/products/syltherine-1.jpg",
         quantity: 1,
         price: 2500,
       },
       {
         title: "مصباح Aura الأنيق المعلق",
-        image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80",
+        image: "/images/products/grifo-1.jpg",
         quantity: 1,
         price: 1000,
       },
@@ -46,7 +46,7 @@ const SAMPLE_ORDERS: UserOrder[] = [
     items: [
       {
         title: "أريكة لوليتو الفاخرة (Lolito Luxury Sofa)",
-        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80",
+        image: "/images/products/lolito-1.jpg",
         quantity: 1,
         price: 7000,
       },

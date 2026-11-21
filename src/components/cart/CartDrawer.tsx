@@ -118,7 +118,11 @@ export function CartDrawer() {
                               </Link>
                             </h4>
                             <p className="text-xs text-slate-500 mt-0.5">
-                              {item.product.category}
+                              {typeof item.product.category === "object" && item.product.category !== null
+                                ? (item.product.category as { nameAr?: string; name?: string }).nameAr ||
+                                  (item.product.category as { nameAr?: string; name?: string }).name ||
+                                  ""
+                                : String(item.product.category || "")}
                             </p>
                           </div>
                           <button

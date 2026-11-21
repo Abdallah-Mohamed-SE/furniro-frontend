@@ -173,7 +173,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </div>
         <div className="flex items-center gap-4">
           <span className="w-24 shrink-0">التصنيف</span>
-          <span className="text-black/80">: {product.category}</span>
+          <span className="text-black/80">
+            :{" "}
+            {typeof product.category === "object" && product.category !== null
+              ? (product.category as { nameAr?: string; name?: string }).nameAr ||
+                (product.category as { nameAr?: string; name?: string }).name ||
+                ""
+              : String(product.category || "")}
+          </span>
         </div>
         <div className="flex items-center gap-4">
           <span className="w-24 shrink-0">الوسوم</span>

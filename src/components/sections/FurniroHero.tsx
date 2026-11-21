@@ -7,7 +7,7 @@ export function FurniroHero() {
       {/* Background Hero Banner */}
       <div className="relative min-h-[580px] sm:min-h-[660px] lg:min-h-[720px] w-full flex items-center">
         <img
-          src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2000&q=80"
+          src="/images/hero-banner.jpg"
           alt="واجهة أثاث Furniro اسكندنافية"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />

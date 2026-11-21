@@ -15,7 +15,7 @@ export function ProductGallery({
 }: ProductGalleryProps) {
   const displayImages = useMemo(() => {
     if (!images || images.length === 0) {
-      return ["https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"];
+      return ["/images/products/syltherine-1.jpg"];
     }
     if (images.length >= 4) return images.slice(0, 4);
     const padded = [...images];

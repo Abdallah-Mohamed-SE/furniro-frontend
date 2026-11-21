@@ -9,17 +9,17 @@ interface RangeCategory {
 const categories: RangeCategory[] = [
   {
     title: "غرف المعيشة",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
+    image: "/images/categories/living-room.jpg",
     href: "/products",
   },
   {
     title: "غرف الطعام",
-    image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=800&q=80",
+    image: "/images/categories/dining-room.jpg",
     href: "/products",
   },
   {
     title: "غرف النوم",
-    image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80",
+    image: "/images/categories/bedroom.jpg",
     href: "/products",
   },
 ];

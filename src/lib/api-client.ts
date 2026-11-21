@@ -1,14 +1,13 @@
 // ============================================================
 // src/lib/api-client.ts
 // ============================================================
-// Central HTTP client for all Laravel API calls.
-// - Reads NEXT_PUBLIC_API_URL from environment.
+// Central HTTP client for Backend API calls (NestJS / REST).
+// - Reads NEXT_PUBLIC_API_URL from environment when configured.
 // - Automatically attaches Authorization: Bearer <token> when available.
 // - Throws ApiError with structured message on non-2xx responses.
 // ============================================================
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export class ApiError extends Error {
   constructor(
@@ -34,6 +33,13 @@ export async function apiClient<T>(
   path: string,
   options: RequestOptions = {},
 ): Promise<T> {
+  if (!BASE_URL) {
+    throw new ApiError(
+      0,
+      "Backend API is not configured. Running in local mock mode.",
+    );
+  }
+
   const { body, headers: customHeaders, ...rest } = options;
 
   const token = getToken();

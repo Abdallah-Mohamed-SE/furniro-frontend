@@ -65,8 +65,8 @@ export interface CartContextValue {
   openCart: () => void;
   closeCart: () => void;
   addItem: (product: Product, quantity?: number) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeItem: (productId: number | string) => void;
+  updateQuantity: (productId: number | string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   subtotal: number;
@@ -117,13 +117,13 @@ export function CartProvider({ children }: CartProviderProps) {
     []
   );
 
-  const removeItem = useCallback((productId: number) => {
+  const removeItem = useCallback((productId: number | string) => {
     const current = getCartSnapshot();
     const updated = current.filter((item) => item.product.id !== productId);
     saveCart(updated);
   }, []);
 
-  const updateQuantity = useCallback((productId: number, quantity: number) => {
+  const updateQuantity = useCallback((productId: number | string, quantity: number) => {
     const current = getCartSnapshot();
     if (quantity <= 0) {
       saveCart(current.filter((item) => item.product.id !== productId));

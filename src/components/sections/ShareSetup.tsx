@@ -6,22 +6,22 @@ interface GalleryImage {
 
 const galleryImages: GalleryImage[] = [
   {
-    url: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=600&q=80",
+    url: "/images/setup/setup-1.jpg",
     alt: "ركن عمل منزلي أنيق",
     className: "h-64 sm:h-80 w-full object-cover rounded-sm",
   },
   {
-    url: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80",
+    url: "/images/setup/setup-2.jpg",
     alt: "كرسي استرخاء أصفر عصري",
     className: "h-64 sm:h-72 w-full object-cover rounded-sm",
   },
   {
-    url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
+    url: "/images/setup/setup-3.jpg",
     alt: "ديكور حائط أنيق لغرفة المعيشة",
     className: "h-64 sm:h-96 w-full object-cover rounded-sm",
   },
   {
-    url: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80",
+    url: "/images/setup/setup-4.jpg",
     alt: "سرير مريح مع إضاءة دافئة",
     className: "h-64 sm:h-72 w-full object-cover rounded-sm",
   },

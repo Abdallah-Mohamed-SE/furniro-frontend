@@ -9,7 +9,7 @@ export function ShopBanner() {
     >
       {/* Background Image with blur & opacity */}
       <img
-        src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80"
+        src="/images/page-banner.jpg"
         alt="خلفية متجر Furniro"
         className="absolute inset-0 h-full w-full object-cover object-center opacity-40 blur-[2px]"
       />

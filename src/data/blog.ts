@@ -35,8 +35,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "14 أكتوبر 2024",
     category: "أخشاب",
     categorySlug: "wood",
-    image:
-      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-1.jpg",
     readTime: "5 دقائق قراءة",
   },
   {
@@ -54,8 +53,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "14 أكتوبر 2024",
     category: "صناعة يدوية",
     categorySlug: "handmade",
-    image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-2.jpg",
     readTime: "4 دقائق قراءة",
   },
   {
@@ -73,8 +71,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "14 أكتوبر 2024",
     category: "أخشاب",
     categorySlug: "wood",
-    image:
-      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-3.jpg",
     readTime: "6 دقائق قراءة",
   },
   {
@@ -92,8 +89,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "03 أغسطس 2024",
     category: "تصميم داخلي",
     categorySlug: "interior",
-    image:
-      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-4.jpg",
     readTime: "7 دقائق قراءة",
   },
   {
@@ -111,8 +107,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "28 يوليو 2024",
     category: "حرف يدوية",
     categorySlug: "crafts",
-    image:
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-5.jpg",
     readTime: "4 دقائق قراءة",
   },
   {
@@ -130,8 +125,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "15 يوليو 2024",
     category: "ديكور عصري",
     categorySlug: "design",
-    image:
-      "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1200&q=80",
+    image: "/images/blog/blog-6.jpg",
     readTime: "5 دقائق قراءة",
   },
 ];
