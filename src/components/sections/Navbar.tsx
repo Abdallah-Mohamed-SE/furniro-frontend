@@ -10,6 +10,7 @@ import {
   Heart,
   ShoppingBag,
   Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -102,6 +103,15 @@ export function Navbar({ className = "" }: NavbarProps) {
                     <p className="truncate text-xs font-bold text-heading">{user?.name}</p>
                     <p className="truncate text-[11px] text-muted-foreground" dir="ltr">{user?.email}</p>
                   </div>
+                  {user?.role?.toUpperCase() === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      className="flex w-full items-center gap-2 px-4 py-2 text-xs font-bold text-primary hover:bg-[#fff3e3] transition-colors border-b border-border/50"
+                    >
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                      <span>لوحة الإدارة</span>
+                    </Link>
+                  )}
                   <Link
                     href="/account"
                     className="flex w-full items-center px-4 py-2 text-xs font-medium text-heading hover:bg-[#fff3e3] hover:text-primary transition-colors"
@@ -231,6 +241,16 @@ export function Navbar({ className = "" }: NavbarProps) {
             <div className="mt-2 border-t border-border pt-4">
               {isAuthenticated ? (
                 <div className="flex flex-col gap-2">
+                  {user?.role?.toUpperCase() === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      onClick={closeMenu}
+                      className="py-2 text-base font-bold text-primary flex items-center gap-2"
+                    >
+                      <ShieldCheck className="h-5 w-5" />
+                      <span>لوحة الإدارة</span>
+                    </Link>
+                  )}
                   <Link
                     href="/account"
                     onClick={closeMenu}
