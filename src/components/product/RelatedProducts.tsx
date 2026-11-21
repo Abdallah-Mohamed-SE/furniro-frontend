@@ -11,16 +11,19 @@ export function RelatedProducts({
   currentProduct,
   allProducts,
 }: RelatedProductsProps) {
-  // Filter out current product and pick up to 4 related products
-  const related = allProducts
-    .filter((p) => p.id !== currentProduct.id)
-    .sort((a, b) => {
-      // Prioritize same category
-      if (a.category === currentProduct.category && b.category !== currentProduct.category) return -1;
-      if (b.category === currentProduct.category && a.category !== currentProduct.category) return 1;
-      return 0;
-    })
-    .slice(0, 4);
+  // Use backend related products if available, or compute from allProducts
+  const related =
+    currentProduct.relatedProducts && currentProduct.relatedProducts.length > 0
+      ? currentProduct.relatedProducts.slice(0, 4)
+      : allProducts
+          .filter((p) => p.id !== currentProduct.id)
+          .sort((a, b) => {
+            // Prioritize same category
+            if (a.category === currentProduct.category && b.category !== currentProduct.category) return -1;
+            if (b.category === currentProduct.category && a.category !== currentProduct.category) return 1;
+            return 0;
+          })
+          .slice(0, 4);
 
   if (related.length === 0) return null;
 

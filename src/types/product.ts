@@ -18,7 +18,19 @@ export type ProductCategory =
   | "كتب"
   | "مطبخ"
   | "جمال وعناية"
-  | "ألعاب";
+  | "ألعاب"
+  | string;
+
+export interface Category {
+  id: string;
+  name: string;
+  nameAr: string;
+  slug: string;
+  image?: string;
+  _count?: {
+    products: number;
+  };
+}
 
 export interface ProductImage {
   url: string;
@@ -29,18 +41,30 @@ export interface Product {
   id: number | string;
   slug: string;
   title: string;
+  name?: string;
+  nameAr?: string;
+  subtitle?: string;
+  subtitleAr?: string;
   description: string;
+  descriptionAr?: string;
   price: number;
+  originalPrice?: number;
   discountPrice?: number;
+  discountPercent?: number;
   stock: number;
-  category: ProductCategory | string | any;
+  category: ProductCategory;
+  categorySlug?: string;
   images: string[];
+  sizes?: string[];
+  colors?: string[];
   rating: number;
   reviewCount: number;
+  reviewsCount?: number;
   brand?: string;
   tags?: string[];
   isFeatured?: boolean;
   isNew?: boolean;
+  relatedProducts?: Product[];
 }
 
 export interface PaginatedProducts {
@@ -52,11 +76,13 @@ export interface PaginatedProducts {
 }
 
 export interface ProductFilters {
-  category?: ProductCategory;
+  category?: string;
   minPrice?: number;
   maxPrice?: number;
   search?: string;
   page?: number;
+  limit?: number;
   perPage?: number;
-  sortBy?: "price_asc" | "price_desc" | "rating" | "newest";
+  sortBy?: "price_asc" | "price_desc" | "rating" | "newest" | "default" | string;
+  isNew?: boolean;
 }

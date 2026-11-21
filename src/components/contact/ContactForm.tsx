@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2, Send } from "lucide-react";
+import { CheckCircle2, Loader2, Send, AlertCircle } from "lucide-react";
 import { contactFormSchema, type ContactFormData } from "@/types/contact";
+import { api } from "@/lib/api";
 
 export interface ContactFormProps {
   className?: string;
@@ -12,6 +13,7 @@ export interface ContactFormProps {
 
 export function ContactForm({ className = "" }: ContactFormProps) {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     register,
@@ -29,15 +31,28 @@ export function ContactForm({ className = "" }: ContactFormProps) {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Simulate API call to send message
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    void data;
-    setIsSuccess(true);
+    setErrorMsg("");
+    try {
+      await api.post("/contact", {
+        name: data.name,
+        email: data.email,
+        subject: data.subject || undefined,
+        message: data.message,
+      });
+      setIsSuccess(true);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "تعذر إرسال رسالتك حالياً، يرجى المحاولة لاحقاً.";
+      setErrorMsg(message);
+    }
   };
 
   const handleReset = () => {
     reset();
     setIsSuccess(false);
+    setErrorMsg("");
   };
 
   if (isSuccess) {
@@ -80,6 +95,18 @@ export function ContactForm({ className = "" }: ContactFormProps) {
       className={`space-y-6 sm:space-y-7 ${className}`.trim()}
       aria-label="نموذج مراسلة اتصل بنا"
     >
+      {/* Error Alert */}
+      {errorMsg && (
+        <div
+          role="alert"
+          aria-live="assertive"
+          className="flex items-center gap-3 rounded-[10px] border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700"
+        >
+          <AlertCircle className="h-5 w-5 shrink-0 text-red-500" aria-hidden="true" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
       {/* Name */}
       <div className="space-y-2">
         <label htmlFor="contact-name" className="block text-base font-medium text-black">

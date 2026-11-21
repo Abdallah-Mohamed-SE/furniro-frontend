@@ -3,7 +3,9 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { WishlistDrawer } from "@/components/wishlist/WishlistDrawer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,10 +36,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className="min-h-screen flex flex-col bg-background text-foreground">
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <div className="flex-1 flex flex-col">{children}</div>
-            <Footer />
-            <CartDrawer />
+            <WishlistProvider>
+              <Navbar />
+              <div className="flex-1 flex flex-col">{children}</div>
+              <Footer />
+              <CartDrawer />
+              <WishlistDrawer />
+            </WishlistProvider>
           </CartProvider>
         </AuthProvider>
       </body>

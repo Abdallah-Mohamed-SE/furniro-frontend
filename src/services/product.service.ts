@@ -1,22 +1,34 @@
-import { apiClient } from "@/lib/api-client";
+import { api } from "@/lib/api";
 import { MOCK_PRODUCTS } from "@/data/products";
-import type { Product, ProductFilters } from "@/types/product";
+import type { Product, ProductFilters, Category } from "@/types/product";
 
-interface ApiResponse<T> {
-  data: T;
-  message?: string;
+interface ProductsBackendResponse {
+  data: any[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
-function normalizeProduct(raw: any): Product {
+export function normalizeProduct(raw: any): Product {
   if (!raw) return raw;
+
   const categoryStr =
     typeof raw.category === "object" && raw.category !== null
       ? raw.category.nameAr || raw.category.name || ""
       : String(raw.category || "");
 
-  const title = raw.title || raw.nameAr || raw.name || "";
+  const categorySlug =
+    typeof raw.category === "object" && raw.category !== null
+      ? raw.category.slug || ""
+      : "";
+
+  const title = raw.nameAr || raw.name || raw.title || "";
+  const subtitle = raw.subtitleAr || raw.subtitle || "";
   const description = raw.descriptionAr || raw.description || "";
-  const reviewCount = raw.reviewCount ?? raw.reviewsCount ?? 0;
+  const reviewCount = raw.reviewsCount ?? raw.reviewCount ?? 0;
 
   let price = raw.price;
   let discountPrice = raw.discountPrice;
@@ -28,43 +40,66 @@ function normalizeProduct(raw: any): Product {
     discountPrice = Math.round(raw.price * (1 - raw.discountPercent / 100));
   }
 
+  // Normalize image URLs
+  const images = Array.isArray(raw.images) && raw.images.length > 0
+    ? raw.images.map((img: string) => {
+        if (typeof img !== "string") return "/images/products/syltherine-1.jpg";
+        let clean = img.replace(/^https?:\/\/[^/]+/i, "");
+        if (!clean.startsWith("/")) {
+          clean = `/${clean}`;
+        }
+        return clean;
+      })
+    : ["/images/products/syltherine-1.jpg"];
+
+  const relatedProducts = Array.isArray(raw.relatedProducts)
+    ? raw.relatedProducts.map(normalizeProduct)
+    : undefined;
+
   return {
     ...raw,
     id: raw.id,
     slug: raw.slug,
     title,
+    name: raw.name,
+    nameAr: raw.nameAr,
+    subtitle,
+    subtitleAr: raw.subtitleAr,
     description,
-    category: categoryStr as any,
+    descriptionAr: raw.descriptionAr,
+    category: categoryStr,
+    categorySlug,
     price,
+    originalPrice: raw.originalPrice,
     discountPrice,
+    discountPercent: raw.discountPercent,
     stock: raw.stock ?? 10,
-    images: Array.isArray(raw.images) && raw.images.length > 0
-      ? raw.images.map((img: string) => {
-          if (typeof img !== "string") return "/images/products/syltherine-1.jpg";
-          let clean = img.replace(/^https?:\/\/[^/]+/i, "");
-          if (!clean.startsWith("/")) {
-            clean = `/${clean}`;
-          }
-          return clean;
-        })
-      : ["/images/products/syltherine-1.jpg"],
+    images,
+    sizes: Array.isArray(raw.sizes) ? raw.sizes : undefined,
+    colors: Array.isArray(raw.colors) ? raw.colors : undefined,
     rating: raw.rating ?? 5,
     reviewCount,
+    reviewsCount: reviewCount,
     brand: raw.brand || "Furniro",
     tags: Array.isArray(raw.tags) ? raw.tags : [],
     isFeatured: Boolean(raw.isFeatured),
     isNew: Boolean(raw.isNew),
+    relatedProducts,
   };
 }
 
 /**
- * فلترة وترتيب البيانات المحلية
+ * Filter and sort local mock products
  */
 function filterMockProducts(filters?: ProductFilters): Product[] {
   let results = [...MOCK_PRODUCTS].map(normalizeProduct);
 
   if (filters?.category) {
-    results = results.filter((p) => p.category === filters.category);
+    results = results.filter(
+      (p) =>
+        p.category === filters.category ||
+        p.categorySlug === filters.category
+    );
   }
 
   if (filters?.search) {
@@ -92,6 +127,8 @@ function filterMockProducts(filters?: ProductFilters): Product[] {
       results.sort((a, b) => (b.discountPrice ?? b.price) - (a.discountPrice ?? a.price));
     } else if (filters.sortBy === "rating") {
       results.sort((a, b) => b.rating - a.rating);
+    } else if (filters.sortBy === "newest") {
+      results.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
     }
   }
 
@@ -99,68 +136,88 @@ function filterMockProducts(filters?: ProductFilters): Product[] {
 }
 
 /**
- * جلب قائمة المنتجات مع دعم الفلترة والبحث.
- * تعمل مباشرة من البيانات المحلية، وتدعم الربط التلقائي بسيرفر NestJS عند تفعيل NEXT_PUBLIC_API_URL.
+ * جلب قائمة المنتجات من خادم NestJS مع دعم الفلترة والبحث والترتيب.
  */
 export async function getProducts(filters?: ProductFilters): Promise<Product[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) {
-    return filterMockProducts(filters);
-  }
-
   try {
     const queryParams = new URLSearchParams();
-    if (filters?.category) queryParams.set("category", filters.category);
+    if (filters?.category && filters.category !== "الكل") {
+      queryParams.set("category", filters.category);
+    }
     if (filters?.search) queryParams.set("search", filters.search);
-    if (filters?.minPrice !== undefined) queryParams.set("min_price", String(filters.minPrice));
-    if (filters?.maxPrice !== undefined) queryParams.set("max_price", String(filters.maxPrice));
-    if (filters?.sortBy) queryParams.set("sort_by", filters.sortBy);
+    if (filters?.minPrice !== undefined) queryParams.set("minPrice", String(filters.minPrice));
+    if (filters?.maxPrice !== undefined) queryParams.set("maxPrice", String(filters.maxPrice));
+    if (filters?.sortBy && filters.sortBy !== "default") {
+      queryParams.set("sort", filters.sortBy);
+    }
     if (filters?.page) queryParams.set("page", String(filters.page));
-    if (filters?.perPage) queryParams.set("per_page", String(filters.perPage));
+    const limit = filters?.limit || filters?.perPage || 100;
+    queryParams.set("limit", String(limit));
 
     const query = queryParams.toString();
     const endpoint = query ? `/products?${query}` : "/products";
 
-    const response = await apiClient<Product[] | ApiResponse<Product[]>>(endpoint);
+    const response = await api.get<ProductsBackendResponse | any[]>(endpoint);
 
     let rawList: any[] = [];
-    if (Array.isArray(response)) {
+    if (response && "data" in response && Array.isArray(response.data)) {
+      rawList = response.data;
+    } else if (Array.isArray(response)) {
       rawList = response;
-    } else if (response && Array.isArray((response as ApiResponse<Product[]>).data)) {
-      rawList = (response as ApiResponse<Product[]>).data;
     } else {
       rawList = MOCK_PRODUCTS;
     }
+
     return rawList.map(normalizeProduct);
-  } catch {
+  } catch (err) {
+    console.warn("تعذر الاتصال بـ Backend API، يتم استخدام البيانات المحلية:", err);
     return filterMockProducts(filters);
   }
 }
 
 /**
- * جلب تفاصيل منتج معين عبر الـ slug.
- * تعمل مباشرة من البيانات المحلية، وتدعم الربط التلقائي بسيرفر NestJS عند تفعيل NEXT_PUBLIC_API_URL.
+ * جلب تفاصيل منتج معين عبر الـ slug من خادم NestJS مع المنتجات ذات الصلة.
  */
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) {
-    const found = MOCK_PRODUCTS.find((p) => p.slug === slug);
-    return found ? normalizeProduct(found) : null;
-  }
-
   try {
-    const response = await apiClient<Product | ApiResponse<Product>>(`/products/${slug}`);
+    const response = await api.get<any>(`/products/${slug}`);
 
-    if (response && "id" in response && "slug" in response) {
+    if (response) {
+      // Backend may return { product, relatedProducts } or { ...product, relatedProducts }
+      if (response.product) {
+        const prod = normalizeProduct(response.product);
+        if (Array.isArray(response.relatedProducts)) {
+          prod.relatedProducts = response.relatedProducts.map(normalizeProduct);
+        }
+        return prod;
+      }
       return normalizeProduct(response);
     }
-    if (response && (response as ApiResponse<Product>).data) {
-      return normalizeProduct((response as ApiResponse<Product>).data);
-    }
+
     const found = MOCK_PRODUCTS.find((p) => p.slug === slug);
     return found ? normalizeProduct(found) : null;
   } catch {
     const found = MOCK_PRODUCTS.find((p) => p.slug === slug);
     return found ? normalizeProduct(found) : null;
+  }
+}
+
+/**
+ * جلب التصنيفات من خادم NestJS.
+ */
+export async function getCategories(): Promise<Category[]> {
+  try {
+    const response = await api.get<Category[]>("/categories");
+    if (Array.isArray(response)) {
+      return response;
+    }
+    return [];
+  } catch {
+    return [
+      { id: "1", name: "Dining", nameAr: "غرفة الطعام", slug: "dining" },
+      { id: "2", name: "Living", nameAr: "غرفة المعيشة", slug: "living" },
+      { id: "3", name: "Bedroom", nameAr: "غرفة النوم", slug: "bedroom" },
+      { id: "4", name: "Office", nameAr: "المكتب", slug: "office" },
+    ];
   }
 }

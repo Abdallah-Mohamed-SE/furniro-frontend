@@ -32,19 +32,33 @@ export function ProductsCatalog({
   className = "",
 }: ProductsCatalogProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>("الكل");
+  const [selectedCategory, setSelectedCategory] = useState<string>("الكل");
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("default");
   const [isFilterOpen, setIsFilterOpen] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
+  const categories = useMemo(() => {
+    const list = new Set<string>();
+    products.forEach((p) => {
+      if (p.category && typeof p.category === "string") {
+        list.add(p.category);
+      }
+    });
+    return ["الكل", ...Array.from(list)];
+  }, [products]);
+
   // Filtering & Sorting
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
     if (selectedCategory !== "الكل") {
-      result = result.filter((p) => p.category === selectedCategory);
+      result = result.filter(
+        (p) =>
+          p.category === selectedCategory ||
+          p.categorySlug === selectedCategory
+      );
     }
 
     if (searchTerm.trim()) {

@@ -2,23 +2,25 @@
 // src/types/user.ts
 // ============================================================
 
-export type UserRole = "customer" | "admin" | "vendor";
+export type UserRole = "customer" | "admin" | "CUSTOMER" | "ADMIN" | string;
 
 export interface User {
-  id: number;
+  id: string | number;
   name: string;
   email: string;
   phone?: string;
   avatarUrl?: string;
   role: UserRole;
+  addresses?: any[];
   emailVerifiedAt?: string;
-  createdAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AuthTokens {
   accessToken: string;
-  tokenType: "Bearer";
-  expiresIn: number;
+  tokenType?: string;
+  expiresIn?: number;
 }
 
 export interface LoginPayload {
@@ -30,11 +32,10 @@ export interface RegisterPayload {
   name: string;
   email: string;
   password: string;
-  passwordConfirmation: string;
   phone?: string;
 }
 
 export interface AuthResponse {
   user: User;
-  tokens: AuthTokens;
+  access_token: string;
 }

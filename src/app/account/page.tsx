@@ -9,50 +9,8 @@ import { AccountOrdersTab } from "@/components/account/AccountOrdersTab";
 import { AccountProfileTab } from "@/components/account/AccountProfileTab";
 import { AccountAddressesTab } from "@/components/account/AccountAddressesTab";
 import { StoreBenefits } from "@/components/sections/StoreBenefits";
+import { getMyOrders } from "@/services/order.service";
 import type { UserOrder, UserAddress } from "@/types/auth";
-
-const SAMPLE_ORDERS: UserOrder[] = [
-  {
-    id: "ord-1",
-    orderNumber: "FUR-98214",
-    date: "18 نوفمبر 2024",
-    status: "processing",
-    statusText: "قيد التجهيز والشحن",
-    total: 3500,
-    itemCount: 2,
-    items: [
-      {
-        title: "كرسي مقهى سيلثرين العصري (Syltherine)",
-        image: "/images/products/syltherine-1.jpg",
-        quantity: 1,
-        price: 2500,
-      },
-      {
-        title: "مصباح Aura الأنيق المعلق",
-        image: "/images/products/grifo-1.jpg",
-        quantity: 1,
-        price: 1000,
-      },
-    ],
-  },
-  {
-    id: "ord-2",
-    orderNumber: "FUR-94301",
-    date: "04 أكتوبر 2024",
-    status: "delivered",
-    statusText: "تم التسليم بنجاح",
-    total: 7000,
-    itemCount: 1,
-    items: [
-      {
-        title: "أريكة لوليتو الفاخرة (Lolito Luxury Sofa)",
-        image: "/images/products/lolito-1.jpg",
-        quantity: 1,
-        price: 7000,
-      },
-    ],
-  },
-];
 
 const SAMPLE_ADDRESSES: UserAddress[] = [
   {
@@ -81,12 +39,23 @@ export default function AccountPage() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading, logout, updateUser } = useAuth();
   const [activeTab, setActiveTab] = useState<"orders" | "profile" | "addresses">("orders");
+  const [orders, setOrders] = useState<UserOrder[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.replace("/login?redirect=/account");
     }
   }, [isLoading, isAuthenticated, router]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    setOrdersLoading(true);
+    getMyOrders()
+      .then((data) => setOrders(data))
+      .catch(() => setOrders([]))
+      .finally(() => setOrdersLoading(false));
+  }, [isAuthenticated]);
 
   if (isLoading) {
     return (
@@ -120,7 +89,7 @@ export default function AccountPage() {
               }`}
             >
               <Package className="h-4 w-4" />
-              <span>طلباتي ({SAMPLE_ORDERS.length})</span>
+              <span>طلباتي ({ordersLoading ? "..." : orders.length})</span>
             </button>
 
             <button
@@ -153,7 +122,7 @@ export default function AccountPage() {
 
         {/* Tab Content Panels */}
         <div>
-          {activeTab === "orders" && <AccountOrdersTab orders={SAMPLE_ORDERS} />}
+          {activeTab === "orders" && <AccountOrdersTab orders={orders} />}
           {activeTab === "profile" && (
             <AccountProfileTab user={user} onUpdate={updateUser} />
           )}

@@ -9,6 +9,7 @@ import { FormField } from "@/components/checkout/FormField";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { useCart } from "@/context/CartContext";
 import { checkoutSchema, type CheckoutFormData } from "@/types/order";
+import { createOrder } from "@/services/order.service";
 import { CheckCircle } from "lucide-react";
 
 const COUNTRY_OPTIONS = [
@@ -34,6 +35,7 @@ export function CheckoutForm() {
   >("bank_transfer");
   const [orderConfirmed, setOrderConfirmed] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const methods = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -57,13 +59,28 @@ export function CheckoutForm() {
   } = methods;
 
   const onSubmit = async (data: CheckoutFormData) => {
-    void data;
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    const generatedOrderNumber = generateOrderNumber();
-    setOrderNumber(generatedOrderNumber);
-    clearCart();
-    setOrderConfirmed(true);
+    if (items.length === 0) {
+      setErrorMessage("سلة التسوق فارغة، يرجى إضافة منتجات إلى السلة أولاً.");
+      return;
+    }
+
+    try {
+      setErrorMessage("");
+      const result = await createOrder({
+        formData: data,
+        items,
+        paymentMethod,
+        shipping: 0,
+      });
+
+      setOrderNumber(result.orderNumber);
+      clearCart();
+      setOrderConfirmed(true);
+    } catch (err: any) {
+      setErrorMessage(
+        err?.message || "تعذر إتمام الطلب حالياً، يرجى التحقق من صحة البيانات والمحاولة مجدداً."
+      );
+    }
   };
 
   if (orderConfirmed) {
@@ -226,6 +243,12 @@ export function CheckoutForm() {
                 paymentMethod={paymentMethod}
                 onPaymentChange={setPaymentMethod}
               />
+
+              {errorMessage && (
+                <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                  {errorMessage}
+                </div>
+              )}
 
               {/* Place Order Button */}
               <Button

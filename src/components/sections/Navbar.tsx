@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 export interface NavbarProps {
   className?: string;
@@ -35,6 +36,7 @@ export function Navbar({ className = "" }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { totalItems, openCart } = useCart();
+  const { totalItems: wishlistTotalItems, openDrawer: openWishlist } = useWishlist();
   const { user, isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
@@ -138,10 +140,21 @@ export function Navbar({ className = "" }: NavbarProps) {
           {/* Wishlist */}
           <button
             type="button"
-            aria-label="المفضلة"
-            className="hidden sm:inline-flex text-foreground hover:text-primary transition-colors p-1"
+            onClick={openWishlist}
+            aria-label={`المفضلة (${wishlistTotalItems} عناصر)`}
+            className="relative hidden sm:inline-flex text-foreground hover:text-primary transition-colors p-1 cursor-pointer"
           >
-            <Heart className="h-5 w-5" aria-hidden="true" />
+            <Heart
+              className={`h-5 w-5 ${
+                wishlistTotalItems > 0 ? "text-red-500 fill-red-500" : ""
+              }`}
+              aria-hidden="true"
+            />
+            {wishlistTotalItems > 0 && (
+              <span className="absolute -top-1.5 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white shadow-xs">
+                {wishlistTotalItems > 99 ? "+99" : wishlistTotalItems}
+              </span>
+            )}
           </button>
 
           {/* Shopping Cart Button */}
@@ -190,6 +203,30 @@ export function Navbar({ className = "" }: NavbarProps) {
                 {item.label}
               </Link>
             ))}
+
+            <button
+              type="button"
+              onClick={() => {
+                closeMenu();
+                openWishlist();
+              }}
+              className="py-2 text-lg font-medium text-foreground transition-colors hover:text-primary flex items-center justify-between cursor-pointer text-start"
+            >
+              <span className="flex items-center gap-2">
+                <Heart
+                  className={`h-5 w-5 ${
+                    wishlistTotalItems > 0 ? "text-red-500 fill-red-500" : ""
+                  }`}
+                  aria-hidden="true"
+                />
+                <span>قائمة المفضلة</span>
+              </span>
+              {wishlistTotalItems > 0 && (
+                <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
+                  {wishlistTotalItems}
+                </span>
+              )}
+            </button>
 
             <div className="mt-2 border-t border-border pt-4">
               {isAuthenticated ? (

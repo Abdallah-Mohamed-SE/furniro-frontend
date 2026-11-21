@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogBanner } from "@/components/blog/BlogBanner";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { StoreBenefits } from "@/components/sections/StoreBenefits";
-import { BLOG_POSTS, BLOG_CATEGORIES, getRecentPosts } from "@/data/blog";
+import { getBlogPosts } from "@/services/blog.service";
 
 export const metadata: Metadata = {
   title: "المدونة | Furniro للأثاث والديكور العصري",
@@ -10,8 +10,9 @@ export const metadata: Metadata = {
     "استكشف أحدث مقالات الديكور الداخلي والأثاث المنزلي من خبراء متجر Furniro. نصائح ملهمة في التصميم الاسكندنافي والحرف اليدوية وفنون تأثيث المنزل.",
 };
 
-export default function BlogPage() {
-  const recentPosts = getRecentPosts(5);
+export default async function BlogPage() {
+  const { posts, categories } = await getBlogPosts({ limit: 50 });
+  const recentPosts = posts.slice(0, 5);
 
   return (
     <main className="bg-white">
@@ -20,8 +21,8 @@ export default function BlogPage() {
 
       {/* 2. Main Two-column Section: Posts List & Interactive Sidebar */}
       <BlogContent
-        initialPosts={BLOG_POSTS}
-        categories={BLOG_CATEGORIES}
+        initialPosts={posts}
+        categories={categories}
         recentPosts={recentPosts}
       />
 

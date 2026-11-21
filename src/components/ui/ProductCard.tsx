@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Share2, Heart, ShoppingBag, Eye } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 export interface ProductCardProps {
   product: Product;
@@ -12,6 +13,8 @@ export interface ProductCardProps {
 
 export function ProductCard({ product, className = "" }: ProductCardProps) {
   const { addItem, openCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const isWishlisted = isInWishlist(product.id);
   const hasDiscount =
     typeof product.discountPrice === "number" &&
     product.discountPrice < product.price;
@@ -90,11 +93,25 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
             </button>
             <button
               type="button"
-              aria-label="إضافة للمفضلة"
-              className="flex items-center gap-1 hover:text-rose-400 transition-colors cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleWishlist(product);
+              }}
+              aria-label={isWishlisted ? "إزالة من المفضلة" : "إضافة للمفضلة"}
+              className={`flex items-center gap-1 transition-colors cursor-pointer ${
+                isWishlisted
+                  ? "text-red-400 hover:text-red-300"
+                  : "hover:text-rose-400"
+              }`}
             >
-              <Heart className="h-4 w-4" aria-hidden="true" />
-              <span>إعجاب</span>
+              <Heart
+                className={`h-4 w-4 ${
+                  isWishlisted ? "fill-red-500 text-red-500" : ""
+                }`}
+                aria-hidden="true"
+              />
+              <span>{isWishlisted ? "في المفضلة" : "إعجاب"}</span>
             </button>
           </div>
         </div>

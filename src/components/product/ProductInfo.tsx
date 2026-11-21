@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Star } from "lucide-react";
+import { Star, Heart } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 export interface ProductInfoProps {
   product: Product;
@@ -20,6 +21,8 @@ const AVAILABLE_COLORS = [
 
 export function ProductInfo({ product }: ProductInfoProps) {
   const { addItem, openCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const isWishlisted = isInWishlist(product.id);
   const [selectedSize, setSelectedSize] = useState<SizeOption>("L");
   const [selectedColor, setSelectedColor] = useState<string>("#816DFA");
   const [quantity, setQuantity] = useState(1);
@@ -162,6 +165,29 @@ export function ProductInfo({ product }: ProductInfoProps) {
           className="w-[215px] h-[58px] sm:h-[64px] border border-black rounded-[15px] text-black text-lg sm:text-[20px] font-normal hover:bg-black hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.99]"
         >
           أضف إلى السلة
+        </button>
+
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleWishlist(product);
+          }}
+          aria-label={isWishlisted ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+          className={`h-[58px] sm:h-[64px] px-6 border rounded-[15px] text-base sm:text-lg font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-[0.99] ${
+            isWishlisted
+              ? "border-red-500 bg-red-50 text-red-600 hover:bg-red-100"
+              : "border-black text-black hover:bg-black hover:text-white"
+          }`}
+        >
+          <Heart
+            className={`h-5 w-5 ${
+              isWishlisted ? "fill-red-500 text-red-500" : ""
+            }`}
+            aria-hidden="true"
+          />
+          <span>{isWishlisted ? "في المفضلة" : "إضافة للمفضلة"}</span>
         </button>
       </div>
 

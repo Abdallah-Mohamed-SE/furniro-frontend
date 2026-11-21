@@ -14,10 +14,12 @@ export function AccountHeader({ user, onLogout }: AccountHeaderProps) {
     .join("")
     .toUpperCase();
 
-  const formattedDate = new Date(user.createdAt).toLocaleDateString("ar-SA", {
-    year: "numeric",
-    month: "long",
-  });
+  const formattedDate = user.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("ar-SA", {
+        year: "numeric",
+        month: "long",
+      })
+    : "فترة قريبة";
 
   return (
     <div className="rounded-xl border border-border bg-[#fcf8f3] p-6 sm:p-8">
